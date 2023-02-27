@@ -54,7 +54,7 @@
 
 			<f:facet name="header">Editar</f:facet>
 			<p:commandLink action="#{cidadeBeanView.editar}"
-				update="@form:formCadastro" id="editarCidade" ajax="true"
+				update="@form" id="editarCidade" ajax="true"
 				immediate="true"
 				oncomplete="document.getElementById('cidadeNome').focus();">
 				<h:graphicImage library="img" name="editar16.png" />
@@ -111,14 +111,9 @@
 
 					</p:commandLink>
 
-
-
 				</c:otherwise>
 
-
-
 			</c:choose>
-
 
 		</center>
 

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.framework.interfac.crud.InterfaceCrud;
 import br.com.project.bean.geral.BeanManagedViewAbstract;
+import br.com.project.carregamento.lazy.CarregamentoLazyListForObject;
 import br.com.project.geral.controller.CidadeController;
 import br.com.project.model.classes.Cidade;
 
@@ -28,11 +29,10 @@ public class CidadeBeanView extends BeanManagedViewAbstract {
 	
 	private Cidade objetoSelecionado = new Cidade();
 	
-	private List<Cidade> list = new ArrayList<Cidade>();
+	private CarregamentoLazyListForObject<Cidade> list = new CarregamentoLazyListForObject<Cidade>();
 	
-	public List<Cidade> getList() throws Exception {
+	public CarregamentoLazyListForObject<Cidade> getList() throws Exception {
 		
-		list = cidadeController.findList(getImplement());
 		return list;
 	}
    
@@ -59,7 +59,7 @@ public class CidadeBeanView extends BeanManagedViewAbstract {
 	@Override
 	public void saveNotReturn() throws Exception {
 		
-		list.clear();
+		list.clean();
 		objetoSelecionado = cidadeController.merge(objetoSelecionado);
 		list.add(objetoSelecionado);
 		objetoSelecionado = new Cidade();
@@ -81,14 +81,14 @@ public class CidadeBeanView extends BeanManagedViewAbstract {
 	@Override
 	public void setarVariavesNulas() throws Exception {
 		
-		list.clear();
+		list.clean();
 		objetoSelecionado = new Cidade();
 	}
 	
 	@Override
 	public String editar() throws Exception {
 		
-		list.clear();
+		list.clean();
 		return url;
 	}
 	
@@ -129,6 +129,22 @@ public class CidadeBeanView extends BeanManagedViewAbstract {
 		
 		
 		return cidadeController;
+	}
+	
+	@Override
+	public void consultarEntidade() throws Exception {
+
+		objetoSelecionado = new Cidade();
+		list.clean();
+		list.setTotalRegistroConsulta(super.totalRegistroConsulta(), super.getSqlLazyQuery());
+		
+		super.consultarEntidade();
+	}
+
+	@Override
+	public String condicaoAndParaPesquisa() throws Exception {
+
+		return "";
 	}
 	
 	

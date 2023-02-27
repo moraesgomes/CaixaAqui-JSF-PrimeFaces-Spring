@@ -1,13 +1,20 @@
-var arrayIdElementsPage = new Array;
+var arrayIdsElementsPage = new Array;
+var idundefined = 'idundefined';
+var classTypeString = 'java.lang.String';
+var classTypeLong = 'java.lang.Long';
+var classTypeDate = 'java.util.Date';
+var classTypeBoolean = 'java.lang.Boolean';
+var classTypeBigDecimal = 'java.math.BigDecimal';
+
 
 function carregarIdElementosPagina() {
-	 arrayIdElementsPage = new Array;
+	 arrayIdsElementsPage = new Array;
 	 for (form = 0 ; form <= document.forms.length; form++){
 		 var formAtual = document.forms[form];
 		 if (formAtual != undefined) {
 			 for (i = 0; i< document.forms[form].elements.length; i++){
 				 if(document.forms[form].elements[i].id != '') {
-					 arrayIdElementsPage[i] = document.forms[form].elements[i].id;
+					 arrayIdsElementsPage[i] = document.forms[form].elements[i].id;
 				 }
 			 }	
 		 }
@@ -193,4 +200,91 @@ function gerenciaTeclaEnter(){
 	});
 
 	
+}
+
+function permitNumber(e) {
+	var unicode = e.charCode ? e.charCode : e.keyCode;
+	if (unicode != 8 && unicode != 9) {
+		if (unicode < 48 || unicode > 57) {
+			return false;
+		}
+	}
+}
+
+function getValorElementPorIdJQuery(id) {
+	var id = getValorElementPorId(id);
+	if (id.trim() != idundefined) {
+		 return PrimeFaces.escapeClientId(id);
+	}
+	
+	 return idundefined;
+}
+
+function addFocoAoCampo(campo) {
+	var id = getValorElementPorId(campo);
+	if (id != idundefined) {
+		document.getElementById(getValorElementPorId(id)).focus();
+	}
+}
+
+function validarCampoPesquisa(valor) {
+	if ( valor != undefined  &&  valor.value != undefined ) {
+		if (valor.value.trim() === '') {
+			valor.value = '';
+		}else {
+			valor.value = valor.value.trim();
+		}
+	}
+}
+
+function addMascaraPesquisa(elemento) {
+	var id = getValorElementPorIdJQuery('valorPesquisa');
+	var vals = elemento.split("*");
+	var campoBanco = vals[0];
+	var typeCampo = vals[1];
+	
+	$(id).unmask();
+	$(id).unbind("keypress"); 
+	$(id).unbind("keyup");
+	$(id).unbind("focus");
+	$(id).val('');
+	if (id != idundefined) {
+		jQuery(function($) {
+			if (typeCampo === classTypeLong) {
+				$(id).keypress(permitNumber);
+			}
+			else if (typeCampo === classTypeBigDecimal) {	
+				$(id).maskMoney({precision:4, decimal:",", thousands:"."}); 
+			}
+			else if (typeCampo === classTypeDate) {
+				$(id).mask('99/99/9999');
+			}
+			else {
+				$(id).unmask();
+				$(id).unbind("keypress");
+				$(id).unbind("keyup");
+				$(id).unbind("focus");
+				$(id).val('');
+			}
+			addFocoAoCampo('valorPesquisa');
+		});
+	}
+}
+
+function pesquisaUserDestinoPerderFocoDialog(codUser){
+	
+	if(codUser.trim()!= ''){
+		$("#user_destinoMsgDialog").val('');
+		$("#LoginDestinoMsgDialog").val('');
+		$.get("buscarUsuarioDestinoMsg?codEntidade=" + codUser,function(resposta){
+			
+			if(resposta.trim()!= ''){
+				
+				var entidade  =JSON.parse(resposta);
+				$("#user_destinoMsgDialog").val(entidade.ent_codigo);
+				$("#LoginDestinoMsgDialog").val(entidade.ent_login);
+			}
+		});
+		
+	}
 }

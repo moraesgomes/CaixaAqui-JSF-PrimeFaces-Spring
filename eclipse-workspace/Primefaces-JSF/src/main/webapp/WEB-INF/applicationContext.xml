@@ -118,7 +118,7 @@
 	<bean id="reportUtil" class="br.com.project.report.util.ReportUtil"/>
 	<bean id="utilFramework" class="br.com.frameworks.util.UtilFramework" scope="session"/>
 	
-	
+	<bean id="controller" name="controller" class="br.com.framework.controller.crud.Controller" />
 	
 	<!-- Services -->
 	
@@ -129,6 +129,7 @@
 	
    <!-- Controllers -->
     <bean id="sessionController" class="br.com.project.geral.controller.SessionControllerImpl" scope="singleton"/>
+    <bean id="mensagemController" name="mensagemController" class=" br.com.project.geral.controller.MensagemController" />
     
     
 </beans>
