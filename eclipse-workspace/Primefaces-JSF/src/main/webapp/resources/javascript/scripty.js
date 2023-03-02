@@ -273,7 +273,7 @@ function addMascaraPesquisa(elemento) {
 
 function pesquisaUserDestinoPerderFocoDialog(codUser){
 	
-	if(codUser.trim()!= ''){
+	if(codUser != ''){
 		$("#user_destinoMsgDialog").val('');
 		$("#LoginDestinoMsgDialog").val('');
 		$.get("buscarUsuarioDestinoMsg?codEntidade=" + codUser,function(resposta){

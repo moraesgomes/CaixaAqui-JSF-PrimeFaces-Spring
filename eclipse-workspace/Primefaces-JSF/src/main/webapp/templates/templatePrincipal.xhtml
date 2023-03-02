@@ -157,6 +157,16 @@
 									</p:menuitem>
 
 								</sec:ifAnyGranted>
+								
+								<sec:ifAnyGranted roles="FUNCIONARIO_ACESSAR,ADMIN">
+								
+									<p:menuitem value="Funcionário" id="menuFuncionario" 
+									  immediate="true"
+									  action="#{funcionarioBeanView.redirecionarFindEntidade}">
+
+									</p:menuitem>
+
+								</sec:ifAnyGranted>
 
 							</p:submenu>
 

@@ -249,9 +249,16 @@
       </p:commandButton>
       
       <p:dialog widgetVar="destinoDialogMsgDialog" id="destinoDialogMsgDialog" modal="false" resizable="false"
-        height="400" dynamic="true" appendToBody="false" header="Consulta usuário destino">
+        height="400" dynamic="true" appendToBody="false" header="Consultar usuário destino">
       
+         <util:pesquisa managedBeanView="#{funcionarioBeanView}"
+          ocultaNovo="false"
+          exibirBotaoAdd = "true"
+          nomePesquisa="Pesquisa usuário"
+          colunasGridDataTableList="/resources/components/colunasDataTableFuncionario.xhtml" 
+          funcaoJavaScript="pesquisaUserDestinoPerderFocoDialog(#{objeto.ent_codigo}),destinoDialogMsgDialog.hide()">
           
+         </util:pesquisa>
       
       </p:dialog>
       

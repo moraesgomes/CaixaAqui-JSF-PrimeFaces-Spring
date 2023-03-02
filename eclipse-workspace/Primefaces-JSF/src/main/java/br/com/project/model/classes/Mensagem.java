@@ -15,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
@@ -26,7 +27,8 @@ import org.primefaces.json.JSONObject;
 import br.com.project.annotation.IdentificaCampoPesquisa;
 
 @Audited
-@Entity(name = "mensagem")
+@Entity
+@Table(name = "mensagem")
 @SequenceGenerator(name = "mensagem_seq", sequenceName = "mensagem_seq", allocationSize = 1, initialValue = 1)
 public class Mensagem implements Serializable {
 

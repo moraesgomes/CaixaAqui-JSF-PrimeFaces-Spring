@@ -12,12 +12,12 @@
    
         <ui:define name="corpo">
         
-        <util:pesquisa managedBeanView="#{cidadeBeanView}"
+        <util:pesquisa managedBeanView="#{funcionarioBeanView}"
           menuImpressao="true"
-          ocultaNovo="#{contextoBean.possuiAcesso('CIDADE_NOVO','ADMIN')}" 
-          nomePesquisa="Pesquisa de Cidade"
+          ocultaNovo="#{contextoBean.possuiAcesso('FUNCIONARIO_NOVO','ADMIN')}" 
+          nomePesquisa="Pesquisa de Funcionário"
           exibirBotaoAdd ="false"
-          colunasGridDataTableList="/resources/components/colunasDataTableCidade.xhtml">
+          colunasGridDataTableList="/resources/components/colunasDataTableFuncionario.xhtml">
         </util:pesquisa>
         
         
