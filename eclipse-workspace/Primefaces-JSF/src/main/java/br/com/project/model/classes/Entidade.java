@@ -38,8 +38,9 @@ public class Entidade implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	@IdentificaCampoPesquisa(descricaoCampo = "Código", campoConsulta = "ent_codigo")
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "entidade_seq")
 	private Long ent_codigo;
 
 	private String ent_login = null;
@@ -164,5 +165,12 @@ public class Entidade implements Serializable {
 
 		return new JSONObject(map);
 	}
+
+	@Override
+	public String toString() {
+		return "Entidade [ent_codigo=" + ent_codigo + ", ent_login=" + ent_login + ", ent_nomeFantasia="
+				+ ent_nomeFantasia + ", tipoEntidade=" + tipoEntidade + "]";
+	}
+	
 
 }

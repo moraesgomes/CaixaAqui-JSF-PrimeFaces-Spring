@@ -1,23 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_funcionario" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a9bb0465-e11c-44f1-8417-5c07fc0046bf">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_funcionario" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6ae2221-f31d-4a04-934d-35f2984cc936">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="37"/>
+	<property name="ireport.x" value="18"/>
 	<property name="ireport.y" value="0"/>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="749" height="79" uuid="a88595d7-7c00-4c47-a9dd-9782af95ce51"/>
-				<textElement textAlignment="Center">
+				<reportElement x="0" y="0" width="721" height="79" uuid="e8fae895-9d3c-47e3-861f-614f7d56b535"/>
+				<textElement>
 					<font size="40"/>
 				</textElement>
-				<text><![CDATA[Relatório Funcionários]]></text>
+				<text><![CDATA[Relatorio de Funcionários]]></text>
 			</staticText>
 		</band>
 	</title>
 	<detail>
-		<band height="164"/>
+		<band height="185"/>
 	</detail>
 </jasperReport>
