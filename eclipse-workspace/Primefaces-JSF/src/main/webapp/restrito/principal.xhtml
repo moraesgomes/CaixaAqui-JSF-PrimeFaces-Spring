@@ -9,9 +9,55 @@
 <ui:composition template="/templates/templatePrincipal.xhtml">
 
   <ui:define name="corpo">
-      <!-- corpo das páginas web -->
+  
+     <p:panel id="panelPageInicial" >
+      
+      
+         <script   type="text/javascript">
+     	
+         google.charts.load("current", {packages:["corechart"]});
+         google.charts.setOnLoadCallback(drawChart);
+				    	
+				      function drawChart() {
+				    	  
+				    	
+				    	  var dataChar;
+				    		  $.ajax(
+				    				  
+								    {  type: "POST",
+								    	url: "gerarGraficoInicial",
+								    	data: { dias: "7" }
+								    }).always(function(resposta) {
+								    	
+								    resposta = JSON.parse(JSON.stringify(resposta));
+
+								    dataChar = new google.visualization.arrayToDataTable(resposta);
+				        
+				        
+					        var options = {
+					          chart: {
+					            title: 'Média do valor dos títulos processados nos últimos 7 dias.',
+					            subtitle: 'Valores expressados em médias.',
+					          },
+					          bars: 'vertical' 
+					        };
+					
+					        var chart = new google.charts.Bar(document.getElementById("chart_inicial"));
+					
+					        chart.draw(dataChar, options);
+					        
+						});
+				   }
+				      
+				 google.setOnLoadCallback(drawChart()); //  chama funcção drawChart()  
+	   		 	</script>
+
+			<div id="chart_inicial" style="width: 100%; height: 500px;"></div>
+          
+   
      
-     
+     </p:panel>
+        
   </ui:define>
 
 </ui:composition>

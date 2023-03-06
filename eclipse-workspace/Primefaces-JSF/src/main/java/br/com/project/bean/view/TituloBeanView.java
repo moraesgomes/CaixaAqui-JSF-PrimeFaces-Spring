@@ -1,7 +1,9 @@
 package br.com.project.bean.view;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 
 import org.primefaces.model.StreamedContent;
@@ -13,23 +15,25 @@ import br.com.framework.interfac.crud.InterfaceCrud;
 import br.com.project.bean.geral.BeanManagedViewAbstract;
 import br.com.project.carregamento.lazy.CarregamentoLazyListForObject;
 import br.com.project.geral.controller.EntidadeController;
+import br.com.project.geral.controller.TituloController;
 import br.com.project.model.classes.Entidade;
+import br.com.project.model.classes.Titulo;
 import br.com.util.all.Mensagens;
 
 @Controller
 @Scope("session")
-@ManagedBean(name="funcionarioBeanView")
-public class FuncionarioBeanView extends BeanManagedViewAbstract{
+@ManagedBean(name="tituloBeanView")
+public class TituloBeanView extends BeanManagedViewAbstract{
 	
 
 	private static final long serialVersionUID = 1L;
 	
-	private String urlFind = "/cadastro/find_funcionario.jsf?faces-redirect=true";
+	private String urlFind = "/cadastro/find_titulo.jsf?faces-redirect=true";
 	
-	private String url = "/cadastro/cad_funcionario.jsf?faces-redirect=true";
+	private String url = "/cadastro/cad_titulo.jsf?faces-redirect=true";
 	
 	
-	private Entidade objetoSelecionado = new Entidade();
+	private Titulo objetoSelecionado = new Titulo();
 	
 	@Autowired
 	private ContextoBean contextoBean;
@@ -37,27 +41,37 @@ public class FuncionarioBeanView extends BeanManagedViewAbstract{
 	@Autowired
 	private EntidadeController entidadeController;
 	
-	private CarregamentoLazyListForObject<Entidade> list = new CarregamentoLazyListForObject<Entidade>();
+	
+	private CarregamentoLazyListForObject<Titulo> list = new CarregamentoLazyListForObject<Titulo>();
+	
+	@PostConstruct
+	private void init() throws Exception {
+		
+		objetoSelecionado.setEnt_codigoabertura(contextoBean.getEntidadeLogada());
+	}
+	
+	@Autowired
+	private TituloController tituloController;
 	
 
 	@Override
-	protected Class<Entidade> getImplement() {
-		return Entidade.class;
+	protected Class<Titulo> getImplement() {
+		return Titulo.class;
 	}
 
 	@Override
 	protected InterfaceCrud<?> getController() {
-		return entidadeController;
+		return tituloController;
 	}
 	
 	@Override
 	public void excluir() throws Exception {
 		
-	     if(objetoSelecionado.getEnt_codigo() != null && objetoSelecionado.getEnt_codigo() > 0) {
+	     if(objetoSelecionado.getEnt_codigo() != null && objetoSelecionado.getTit_codigo() > 0) {
 	    	 
-	    	 entidadeController.delete(objetoSelecionado);
+	    	 tituloController.delete(objetoSelecionado);
 	    	 list.remove(objetoSelecionado);
-	    	 objetoSelecionado = new Entidade();
+	    	 objetoSelecionado = new Titulo();
 	    	 sucesso();
 	     }
 	}
@@ -65,23 +79,23 @@ public class FuncionarioBeanView extends BeanManagedViewAbstract{
 	@Override
 	public String condicaoAndParaPesquisa() throws Exception {
 
-		return " and entity.tipoEntidade = 'FUNCIONARIO' ";
+		return " ";
 	}
 	
-	public void setObjetoSelecionado(Entidade objetoSelecionado) {
+	public void setObjetoSelecionado(Titulo objetoSelecionado) {
 		this.objetoSelecionado = objetoSelecionado;
 	}
 	
-	public Entidade getObjetoSelecionado() {
+	public Titulo getObjetoSelecionado() {
 		return objetoSelecionado;
 	}
 	
 	
-	public void setList(CarregamentoLazyListForObject<Entidade> list) {
+	public void setList(CarregamentoLazyListForObject<Titulo> list) {
 		this.list = list;
 	}
 
-	public CarregamentoLazyListForObject<Entidade> getList() {
+	public CarregamentoLazyListForObject<Titulo> getList() {
 		return list;
 	}
 	
@@ -89,13 +103,14 @@ public class FuncionarioBeanView extends BeanManagedViewAbstract{
 	@Override
 	public String redirecionarFindEntidade() throws Exception {
 		
+		novo();
 		return urlFind;
 	}
 	
 	@Override
 	public void consultarEntidade() throws Exception {
 		
-		objetoSelecionado = new Entidade();
+		objetoSelecionado = new Titulo();
 		list.clean();
 		list.setTotalRegistroConsulta(super.totalRegistroConsulta(),super.getSqlLazyQuery() );
 	}
@@ -104,16 +119,17 @@ public class FuncionarioBeanView extends BeanManagedViewAbstract{
 	@Override
 	public StreamedContent getArquivoReport() throws Exception {
 		
-		super.setNomeRelatorioJasper("report_funcionario");
-		super.setNomeRelatorioSaida("report_funcionario");
-		super.setListDataBeanCollectionReport(entidadeController.findList(getImplement()));
+		super.setNomeRelatorioJasper("report_titulo");
+		super.setNomeRelatorioSaida("report_titulo");
+		super.setListDataBeanCollectionReport(tituloController.findList(getImplement()));
 		
 		return super.getArquivoReport();
 	}
 	
 	@Override
 	public String novo() throws Exception {
-		objetoSelecionado = new Entidade();
+		objetoSelecionado = new Titulo();
+		init();
 		list.clean();
 		return url;
 	}
@@ -122,31 +138,21 @@ public class FuncionarioBeanView extends BeanManagedViewAbstract{
 	public void saveNotReturn() throws Exception {
 		
 		
-		if(!objetoSelecionado.getAcessos().contains("USER")) {
-			
-			objetoSelecionado.getAcessos().add("USER");
-		}
 		
-		if(entidadeController.existeCpf(objetoSelecionado.getCpf())) {
-			
-			 Mensagens.msgSeverityInfo(" Já existe esse CPF cadastrado no sistema!");
-			
-		}else {
-		
-		objetoSelecionado =  entidadeController.merge(objetoSelecionado);
+		objetoSelecionado =  tituloController.merge(objetoSelecionado);
 		list.add(objetoSelecionado);
-		objetoSelecionado = new Entidade();
+		objetoSelecionado = new Titulo();
 		sucesso();
-		}
+		
 	}
 	
 	@Override
 	public void saveEdit() throws Exception {
 		
-	   objetoSelecionado = entidadeController.merge(objetoSelecionado);	
+	   objetoSelecionado = tituloController.merge(objetoSelecionado);	
 	   list.add(objetoSelecionado);
 	   
-	   objetoSelecionado = new Entidade();
+	   objetoSelecionado = new Titulo();
 	   Mensagens.msgSeverityInfo("Atualizado com sucesso!");
 	}
 	
@@ -154,6 +160,13 @@ public class FuncionarioBeanView extends BeanManagedViewAbstract{
 	public String editar() throws Exception {
 		
 		return url;
+	}
+	
+	public List<Entidade> pesquisarPagador(String nome) throws Exception{
+		
+		return  entidadeController.pesquisarPorNome(nome);
+		
+		
 	}
 	
 

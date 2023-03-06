@@ -27,6 +27,7 @@ import org.hibernate.annotations.CollectionOfElements;
 import org.hibernate.envers.Audited;
 import org.primefaces.json.JSONObject;
 
+import br.com.project.acessos.Permissao;
 import br.com.project.annotation.IdentificaCampoPesquisa;
 
 @SuppressWarnings("deprecation")
@@ -56,6 +57,9 @@ public class Entidade implements Serializable {
 	private Date ent_ultimoacesso;
 
 	private String tipoEntidade = "";
+	
+	@Column(unique = true)
+	private String cpf;
 
 	@CollectionOfElements
 	@ElementCollection(targetClass = String.class, fetch = FetchType.EAGER)
@@ -138,6 +142,14 @@ public class Entidade implements Serializable {
 	public void setEnt_nomeFantasia(String ent_nomeFantasia) {
 		this.ent_nomeFantasia = ent_nomeFantasia;
 	}
+	
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+	
+	public String getCpf() {
+		return cpf;
+	}
 
 	@Override
 	public int hashCode() {
@@ -172,5 +184,22 @@ public class Entidade implements Serializable {
 				+ ent_nomeFantasia + ", tipoEntidade=" + tipoEntidade + "]";
 	}
 	
+	
+	public Set<Permissao> getAcessosPermissao(){
+		
+		Set<Permissao> permissoes = new HashSet<Permissao>();
+		
+		for(String acesso:acessos) {
+			
+			for(Permissao acess:Permissao.values()) {
+				
+				if(acesso.equalsIgnoreCase(acess.name())) {
+					permissoes.add(acess);
+				}
+			}
+		}
+		
+		return permissoes;
+	}
 
 }

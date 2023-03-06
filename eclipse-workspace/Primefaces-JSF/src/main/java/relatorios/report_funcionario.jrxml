@@ -1,13 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report_funcionario" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c6ae2221-f31d-4a04-934d-35f2984cc936">
 	<property name="ireport.zoom" value="1.0"/>
-	<property name="ireport.x" value="18"/>
+	<property name="ireport.x" value="41"/>
 	<property name="ireport.y" value="0"/>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\User\\eclipse-workspace\\Primefaces-JSF\\src\\main\\java\\relatorios\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="email" class="java.lang.String">
+		<fieldDescription><![CDATA[email]]></fieldDescription>
+	</field>
+	<field name="ent_nomeFantasia" class="java.lang.String">
+		<fieldDescription><![CDATA[ent_nomeFantasia]]></fieldDescription>
+	</field>
+	<field name="tipoEntidade" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoEntidade]]></fieldDescription>
+	</field>
+	<field name="acessosPermissao" class="java.util.Set">
+		<fieldDescription><![CDATA[acessosPermissao]]></fieldDescription>
+	</field>
+	<group name="Grupo usuarios acesso">
+		<groupExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{acessosPermissao})]]></groupExpression>
+		<groupHeader>
+			<band height="32">
+				<rectangle>
+					<reportElement x="0" y="0" width="802" height="32" backcolor="#CCCCCC" uuid="22c77cc7-2abc-40c9-9220-46c1e82b62ab"/>
+				</rectangle>
+				<textField>
+					<reportElement x="0" y="0" width="311" height="18" uuid="76bf908d-7749-45d0-b0df-494cb723df28"/>
+					<textFieldExpression><![CDATA[$F{email}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="548" y="0" width="254" height="18" uuid="59819e07-26ec-4e44-a9d9-f3c9a0d551c0"/>
+					<textFieldExpression><![CDATA[$F{ent_nomeFantasia}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="311" y="0" width="237" height="18" uuid="88e89787-ae5a-42b9-93ed-728c75bbafc3"/>
+					<textFieldExpression><![CDATA[$F{tipoEntidade}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupHeader>
+	</group>
 	<title>
 		<band height="79" splitType="Stretch">
 			<staticText>
-				<reportElement x="0" y="0" width="721" height="79" uuid="e8fae895-9d3c-47e3-861f-614f7d56b535"/>
-				<textElement>
+				<reportElement x="0" y="0" width="802" height="79" uuid="e8fae895-9d3c-47e3-861f-614f7d56b535"/>
+				<textElement textAlignment="Center">
 					<font size="40"/>
 				</textElement>
 				<text><![CDATA[Relatorio de Funcionários]]></text>
@@ -15,6 +55,12 @@
 		</band>
 	</title>
 	<detail>
-		<band height="185"/>
+		<band height="35">
+			<subreport>
+				<reportElement x="0" y="0" width="802" height="35" uuid="e530ec94-3c48-415d-bcef-78f710ab8d59"/>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanCollectionDataSource($F{acessosPermissao})]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "report_funcionario_subreport.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
 	</detail>
 </jasperReport>
